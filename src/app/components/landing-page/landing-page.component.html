@@ -1,0 +1,36 @@
+<div class="landing-page-container">
+  <div class="jumbotron text-center">
+    <h1>Welcome, Dr. {{ authService.doctorProfile.doctor.doctorName}}</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Patients Overview</h5>
+          <p class="card-text">You have {{ patientCount }} patients with upcoming vaccinations.</p>
+          <a routerLink="/patients" class="btn btn-primary">View All Patients</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Vaccination Schedule</h5>
+          <p class="card-text">Next vaccination due in {{ nextVaccinationDays }} days.</p>
+          <a routerLink="/schedule" class="btn btn-primary">View Full Schedule</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Vaccine Inventory</h5>
+          <p class="card-text">You have {{ lowStockVaccineCount }} vaccines low in stock.</p>
+          <a routerLink="/inventory" class="btn btn-primary">Manage Inventory</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

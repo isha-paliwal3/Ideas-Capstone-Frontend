@@ -1,0 +1,26 @@
+.landing-page-container{
+  margin-top: 7rem;
+  min-height: 90vh;
+}
+
+.jumbotron {
+  background-color: #f8f9fa;
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.3rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  background-color: #5142d9;
+  color: white;
+}
