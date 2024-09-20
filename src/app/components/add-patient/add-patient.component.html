@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Add New Patient</h2>
+          <form (ngSubmit)="savePatient()" #patientForm="ngForm">
+
+            <div class="mb-3">
+              <label for="patientName" class="form-label">Patient Name</label>
+              <input type="text" id="patientName" class="form-control" [(ngModel)]="patient.patientName" name="patientName" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="dob" class="form-label">Date of Birth</label>
+              <input type="date" id="dob" class="form-control" [(ngModel)]="patient.dateOfBirth" name="dob" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <select id="gender" class="form-select" [(ngModel)]="patient.gender" name="gender" required>
+                <option value="" disabled>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="contactNumber" class="form-label">Contact Number</label>
+              <input type="tel" id="contactNumber" class="form-control" [(ngModel)]="patient.phoneNumber" name="contactNumber" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" id="address" class="form-control" [(ngModel)]="patient.address" name="address" required>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary" style="background-color: #5142d9; color: white;" [disabled]="!patientForm.form.valid">Save Patient</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

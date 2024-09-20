@@ -1,0 +1,32 @@
+<div class="container">
+  <h2 class="text-center mb-4">Child Immunization Schedule & Vaccination Chart India</h2>
+  <p>This Childhood Immunization Schedule provides a list of vaccines to be given in India as part of India Immunization
+    Schedule 2024. It's important that vaccines are given on time for the best protection. Different vaccines are given
+    at different ages to protect your baby. The following vaccinations need to be given to babies as part of their routine
+    childhood vaccinations.</p>
+
+  <div id="pdfContent" class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sr.No.</th>
+          <th>Age</th>
+          <th>Vaccine Name</th>
+          <th>Route</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of immunizationSchedule">
+          <td>{{ schedule.index }}</td>
+          <td>{{ schedule.ageInWeeks }} Weeks</td>
+          <td>{{ schedule.vaccine.vaccineName }}</td>
+          <td>{{ schedule.vaccine.route }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-primary" style="background: #5142d9; color: #fff;"  (click)="generatePDF()">Download PDF</button>
+  </div>
+</div>

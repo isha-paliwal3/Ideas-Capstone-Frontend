@@ -1,0 +1,22 @@
+.container{
+  min-height: 90vh;
+  margin-top: 6rem;
+}
+
+.dropdown-menu {
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ced4da;
+  width: 100%;
+  position: absolute; 
+  z-index: 1000;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}

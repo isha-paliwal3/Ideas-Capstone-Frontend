@@ -1,1 +1,69 @@
-<p>patients works!</p>
+<div class="patients-containe p-5">
+  <h2 class="mb-4">Patients Overview</h2>
+
+  <!-- Search and Add Button Row -->
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+      <input type="text" class="form-control shadow-sm" placeholder="Search patients..." [(ngModel)]="searchTerm" (input)="filterPatients()">
+    </div>
+    <div class="col-md-6 text-end">
+      <a routerLink="/addpatients" class="btn btn-primary shadow-sm" style="background-color: #5142d9;">Add New Patient</a>
+    </div>
+  </div>
+
+  <!-- Patient Cards -->
+  <div class="row mt-4" *ngIf="filteredPatients.length > 0">
+    <div class="col-md-3 mb-4" *ngFor="let patient of filteredPatients">
+      <div class="card border-0 rounded-lg">
+        <div class="card-body">
+          <!-- Patient Info Row -->
+          <div class="d-flex justify-content-between align-items-start">
+            <!-- Patient Avatar -->
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle text-white text-center" style="background-color: #5142d9; width: 50px; height: 50px; line-height: 50px; font-size: 1.5rem;">
+                {{ patient.patientName[0] }}
+              </div>
+              <!-- Patient Name and Gender -->
+              <div class="ms-3">
+                <h5 class="card-title mb-1">{{ patient.patientName }}</h5>
+                <p class="card-subtitle text-muted">{{ patient.gender }}</p>
+              </div>
+            </div>
+            <!-- Delete Button -->
+            <button class="btn btn-sm" (click)="deletePatient(patient.patientId)">
+              <i class="bi bi-trash fs-5 text-danger"></i>
+            </button>
+          </div>
+
+          <hr>
+
+          <!-- Patient Details -->
+          <div class="d-flex justify-content-center align-items-center flex-column ">
+            <p class="card-text" style="font-weight: 500;">
+              <span style="color: gray;">DOB</span> {{ patient.dateOfBirth | date: 'dd-MM-yyyy' }}
+            </p>
+            <p class="card-text" style="font-weight: 500;">
+              <span style="color: gray;">Age</span> {{ patient.ageInweeks }} Weeks
+            </p>
+            <p class="card-text" style="font-weight: 500;">
+              <span style="color: gray;">Location</span> {{ patient.address }}
+              <i class="bi bi-geo-alt" style="color: red;"></i>
+            </p>
+          </div>
+        </div>
+
+        <!-- View Details Button -->
+        <div class="d-flex justify-content-center mb-3">
+          <button class="btn btn-sm border-only-btn p-2" style="font-weight: 500;" [routerLink]="['/patients', patient.patientId]">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Patients Found Message -->
+  <div *ngIf="filteredPatients.length === 0" class="text-center mt-5">
+    <p>No patients found. <br> <a routerLink="/addpatients" class="text-primary">Add a new patient</a>.</p>
+  </div>
+</div>

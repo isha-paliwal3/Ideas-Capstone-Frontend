@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <div class="d-flex align-items-center p-2">
+        <div class="avatar text-white text-center d-flex justify-content-center align-items-center me-3"
+          style="width: 50px; height: 50px; font-size: 1.5rem; background-color: #5142d9; border-radius: 50%;">
+          {{ patient?.patientName?.[0] }}
+        </div>
+        <div>
+          <h4 class="card-title mb-0 d-flex align-items-center">
+            {{ patient?.patientName }}
+            <p class="text-muted my-0 ms-2" style="font-size: 0.8rem;">Age: {{ calculateAgeInWeeks(patient?.dateOfBirth)
+              }} weeks</p>
+          </h4>
+          <p class="text-muted m-0" style="font-size: 0.9rem;">
+            Date of Birth: {{ patient?.dateOfBirth | date: 'longDate' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center my-4">
+    <h3 class="m-0">Vaccination Logs</h3>
+    <button class="btn btn-primary" style="background: #5142d9; color: #fff;" (click)="addLog()">Add Log</button>
+  </div>
+
+  <div *ngIf="vaccinationLogs.length > 0">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Dose Number</th>
+            <th>Vaccination Date</th>
+            <th>Next Due Date</th>
+            <th>Status</th>
+            <th>Vaccine Name</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of vaccinationLogs; let i = index">
+            <td *ngIf="!isEditing(i)">{{ log.doseNumber }}</td>
+            <td *ngIf="isEditing(i)">
+              <input type="number" [(ngModel)]="editableLog.doseNumber" class="form-control" />
+            </td>
+
+            <td *ngIf="!isEditing(i)">{{ log.vaccinationDate | date: 'dd-MM-yyyy' }}</td>
+            <td *ngIf="isEditing(i)">
+              <input type="date" [(ngModel)]="editableLog.vaccinationDate" class="form-control" />
+            </td>
+
+            <td *ngIf="!isEditing(i)">{{ log.nextDueDate | date: 'dd-MM-yyyy' }}</td>
+            <td *ngIf="isEditing(i)">
+              <input type="date" [(ngModel)]="editableLog.nextDueDate" class="form-control" />
+            </td>
+
+            <td *ngIf="!isEditing(i)">{{ log.vaccinationStatus }}</td>
+            <td *ngIf="isEditing(i)">
+              <input type="text" [(ngModel)]="editableLog.vaccinationStatus" class="form-control" />
+            </td>
+
+            <!-- Vaccine name with dropdown -->
+            <td *ngIf="!isEditing(i)">{{ log.vaccine.vaccineName }}</td>
+            <td *ngIf="isEditing(i)">
+              <input type="text" [(ngModel)]="editableLog.vaccine.vaccineName" class="form-control"
+                (input)="filterVaccineList()" (focus)="showDropdown = true" />
+              <div *ngIf="showDropdown && filteredVaccines.length > 0" class="dropdown-menu show">
+                <div class="dropdown-item" *ngFor="let vaccine of filteredVaccines" (mousedown)="selectVaccine(vaccine)">
+                  {{ vaccine.vaccineName }}
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <button class="btn btn-sm" *ngIf="!isEditing(i)" (click)="editLog(i, log)">
+                <i class="bi bi-pencil fs-5 text-primary" style=" color: #5142d9!important;"></i>
+              </button>
+              <div *ngIf="isEditing(i)">
+                <button class="btn btn-sm btn-success me-1" (click)="saveLog(i)">Ok</button>
+                <button class="btn btn-sm btn-danger" (click)="cancelEdit()">Cancel</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="vaccinationLogs.length === 0">
+    <p>No vaccination logs available for this patient.</p>
+  </div>
+</div>

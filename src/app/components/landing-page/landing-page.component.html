@@ -1,36 +1,124 @@
 <div class="landing-page-container">
-  <div class="jumbotron text-center">
-    <h1>Welcome, Dr. {{ authService.doctorProfile.doctor.doctorName}}</h1>
+  <div class="hero-section text-center d-flex align-items-center justify-content-center">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1 class="display-4">Welcome, Dr. {{ authService.doctorProfile.doctor.doctorName }}</h1>
+      <p class="lead">Your personalized dashboard for patient care and vaccination schedules.</p>
+    </div>
   </div>
 
-  <div class="row">
+  <div class="row mt-5 text-center">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-center align-items-center mb-3">
+            <i class="fas fa-users fa-3x " style="color: #5142d9;"></i>
+          </div>
+          <h5 class="card-title">Patients Overview</h5>
+          <p class="card-text">
+            You have <strong>{{ patientCount }}</strong> {{ patientCount === 1 ? 'patient' : 'patients' }} with upcoming vaccinations.
+          </p>
+          <a routerLink="/patients" class="btn w-50">
+            <i class="fas fa-eye"></i> View All Patients
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Vaccination Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-center align-items-center mb-3">
+            <i class="fas fa-syringe fa-3x" style="color: #5142d9;"></i>
+          </div>
+          <h5 class="card-title">Upcoming Vaccinations</h5>
+          <p class="card-text">
+            You have <strong>{{ upcomingVaccinations.length }}</strong> {{ upcomingVaccinations.length === 1 ? 'upcoming vaccination' : 'upcoming vaccinations' }}.
+          </p>
+          <a routerLink="/upcomingVaccinations" class="btn w-50">
+            <i class="fas fa-calendar-check"></i> View Full Schedule
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add New Patient Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-center align-items-center mb-3">
+            <i class="fas fa-user-plus fa-3x " style="color: #5142d9;"></i>
+          </div>
+          <h5 class="card-title">Add New Patient</h5>
+          <p class="card-text">Easily add new patients to the system.</p>
+          <a routerLink="/addpatients" class="btn w-50">
+            <i class="fas fa-plus"></i> Add Patient
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Patients Due in This week</h5>
+          <div class="chart-container">
+            <canvas id="vaccinationChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Vaccines Due by Type in this week</h5>
+          <div class="chart-container">
+            <canvas id="vaccineTypeChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row mt-5">
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Patients Overview</h5>
-          <p class="card-text">You have {{ patientCount }} patients with upcoming vaccinations.</p>
+          <p class="card-text">
+            You have {{ patientCount }} {{ patientCount === 1 ? 'patient' : 'patients' }} with upcoming vaccinations.
+          </p>
           <a routerLink="/patients" class="btn btn-primary">View All Patients</a>
         </div>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Vaccination Schedule</h5>
-          <p class="card-text">Next vaccination due in {{ nextVaccinationDays }} days.</p>
-          <a routerLink="/schedule" class="btn btn-primary">View Full Schedule</a>
+          <h5 class="card-title">Upcoming Vaccination</h5>
+          <p class="card-text">
+            You have {{ upcomingVaccinations.length }} {{ upcomingVaccinations.length === 1 ? 'upcoming vaccination' : 'upcoming vaccinations' }}.
+          </p>
+          <a routerLink="/upcomingVaccinations" class="btn btn-primary">View Full Schedule</a>
         </div>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Vaccine Inventory</h5>
-          <p class="card-text">You have {{ lowStockVaccineCount }} vaccines low in stock.</p>
-          <a routerLink="/inventory" class="btn btn-primary">Manage Inventory</a>
+          <h5 class="card-title">Add New Patient</h5>
+          <p class="card-text">Easily add new patients to the system.</p>
+          <a routerLink="/addpatients" class="btn btn-primary">Add Patient</a>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+
 
 </div>

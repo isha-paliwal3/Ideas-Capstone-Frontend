@@ -1,0 +1,77 @@
+<div class="container d-flex justify-content-center">
+  <div class="card" style="width: 400px; height: 600px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Add Vaccination Log</h3>
+      <form [formGroup]="vaccinationLogForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="doseNumber" class="form-label">Dose Number</label>
+          <input type="number" id="doseNumber" class="form-control" formControlName="doseNumber">
+          <div *ngIf="vaccinationLogForm.get('doseNumber')?.invalid && vaccinationLogForm.get('doseNumber')?.touched" class="text-danger small">
+            Dose Number is required.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="vaccinationDate" class="form-label">Vaccination Date</label>
+          <input type="date" id="vaccinationDate" class="form-control" formControlName="vaccinationDate">
+          <div *ngIf="vaccinationLogForm.get('vaccinationDate')?.invalid && vaccinationLogForm.get('vaccinationDate')?.touched" class="text-danger small">
+            Vaccination Date is required.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="nextDueDate" class="form-label">Next Due Date</label>
+          <input type="date" id="nextDueDate" class="form-control" formControlName="nextDueDate">
+          <div *ngIf="vaccinationLogForm.get('nextDueDate')?.invalid && vaccinationLogForm.get('nextDueDate')?.touched" class="text-danger small">
+            Next Due Date is required.
+          </div>
+        </div>
+
+        <div class="mb-3 position-relative">
+          <label for="vaccineName" class="form-label">Vaccine</label>
+          <input
+            type="text"
+            id="vaccineName"
+            class="form-control"
+            formControlName="vaccineName"
+            (input)="filterVaccineList()"
+            (focus)="showDropdown = true"
+          />
+          <div *ngIf="showDropdown && filteredVaccines.length > 0" class="dropdown-menu show">
+            <div
+              *ngFor="let vaccine of filteredVaccines"
+              class="dropdown-item"
+              (mousedown)="selectVaccine(vaccine)"
+            >
+              {{ vaccine.vaccineName }}
+            </div>
+          </div>
+          <div *ngIf="vaccinationLogForm.get('vaccineName')?.invalid && vaccinationLogForm.get('vaccineName')?.touched" class="text-danger small">
+            Vaccine name is required.
+          </div>
+        </div>
+
+        <div class="d-none">
+          <input type="text" formControlName="vaccineId" />
+        </div>
+
+        <div class="mb-3">
+          <label for="vaccinationStatus" class="form-label">Vaccination Status</label>
+          <select id="vaccinationStatus" class="form-control" formControlName="vaccinationStatus">
+            <option value="">Select Status</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+          </select>
+          <div *ngIf="vaccinationLogForm.get('vaccinationStatus')?.invalid && vaccinationLogForm.get('vaccinationStatus')?.touched" class="text-danger small">
+            Vaccination Status is required.
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary me-2" [disabled]="vaccinationLogForm.invalid">Save</button>
+          <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="container">
+  <h3>Upcoming Vaccinations</h3>
+  <div *ngIf="upcomingVaccinations.length > 0; else noVaccinations">
+    <table class="table table-bordered mt-5">
+      <thead>
+        <tr>
+          <th>Patient Name</th>
+          <th>Phone Number</th>
+          <th>Address</th>
+          <th>Vaccine Name</th>
+          <th>Due On</th>
+          <th>Current Age (Days)</th>
+          <th>Ideal Age for Vaccine (Days)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vaccination of upcomingVaccinations">
+          <td>{{ vaccination.patientName }}</td>
+          <td>{{ vaccination.phoneNumber }}</td>
+          <td>{{ vaccination.address }}</td>
+          <td>{{ vaccination.vaccineName }}</td>
+          <td>{{ vaccination.nextDueDate | date: 'longDate' }}</td>
+          <td>{{ vaccination.currentAgeInDays }}</td>
+          <td>{{ vaccination.idealAgeInDays }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noVaccinations>
+    <p>No upcoming vaccinations available.</p>
+  </ng-template>
+</div>

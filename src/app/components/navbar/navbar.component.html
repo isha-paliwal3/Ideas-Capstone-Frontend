@@ -1,6 +1,6 @@
 <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-light px-5">
   <div class="container-fluid">
-    <a class="mb-3 navbar-brand" [routerLink]="authService.isDoctorLoggedIn ? '/landingPage' : authService.isAdminLoggedIn ? '/adminDashboard': '/'">
+    <a class="mb-3 navbar-brand" [routerLink]="authService.isDoctorLoggedIn ? '/landingPage': '/'">
       <img width="100" src="../../../assets/logo.png" alt="Logo">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -19,18 +19,14 @@
         </li>
         <li class="nav-item">
           <a class="nav-link rounded-2" aria-current="page" routerLink="/schedule"
-            routerLinkActive="active">Immunisation Schedule</a>
+            routerLinkActive="active">Immunization Schedule</a>
         </li>
       </ul>
       <div class="d-flex ms-auto align-items-center">
-        <form class="d-flex" role="search" *ngIf="authService.isDoctorLoggedIn">
-          <input class="form-control me-2" type="search" placeholder="Search Patients" aria-label="Search">
-        </form>
         <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
           <li class="nav-item me-3 " *ngIf="authService.isDoctorLoggedIn">
             <a class="nav-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <!-- <img [src]="authService.doctorProfile.doctor.profileImageUrl || 'default-profile.png'" alt="Profile" class="rounded-circle" width="40" height="40"> -->
               <img
                 src="https://static.vecteezy.com/system/resources/thumbnails/015/412/022/small/doctor-round-avatar-medicine-flat-avatar-with-male-doctor-medical-clinic-team-round-icon-medical-collection-illustration-vector.jpg"
                 alt="Profile" class="rounded-circle" width="40" height="40">

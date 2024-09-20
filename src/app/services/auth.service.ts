@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DoctorResponse } from 'src/app/model/doctor/doctor/doctor-response';
+import { DoctorResponse } from 'src/app/model/doctor/doctor-response';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +23,14 @@ export class AuthService {
   }
 
   canActivate(): boolean {
-    if (this.isDoctorLoggedIn && this.doctorProfile.jwt!==null) {
+    if (this.isDoctorLoggedIn && this.doctorProfile.jwt !== null) {
       return true;
     }
     return false;
   }
 
   canAdminActivate(): boolean {
-    if (this.isAdminLoggedIn && this.doctorProfile.jwt!==null) {
+    if (this.isAdminLoggedIn && this.doctorProfile.jwt !== null) {
       return true;
     }
     return false;
@@ -46,11 +46,13 @@ export class AuthService {
     this.http.post<DoctorResponse>(this.loginUrl, loginData).subscribe(response => {
       if (response.doctor == null) {
         this.isAdminLoggedIn = true;
+        console.log('admin Login successful', response);
         this.router.navigate(['/adminDashboard']);
       }
-      else{
+      else {
         this.isDoctorLoggedIn = true;
         this.doctorProfile = response;
+        console.log('doctor Login successful', response);
         this.router.navigate(['/landingPage']);
       }
 
@@ -63,7 +65,8 @@ export class AuthService {
 
   logout() {
     this.isDoctorLoggedIn = false;
-    this.isAdminLoggedIn = false;
     this.doctorProfile = new DoctorResponse();
+    console.log(this.isDoctorLoggedIn);
   }
+
 }

@@ -1,0 +1,20 @@
+.patients-container{
+  margin-top: 7rem;
+  min-height: 90vh;
+}
+
+.border-only-btn {
+  background-color: transparent;
+  border: 1px solid #5142d9;
+}
+
+.border-only-btn:hover {
+  background-color: #5142d9;
+  color: #fff;
+}
+
+.card {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

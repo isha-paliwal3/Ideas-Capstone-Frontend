@@ -1,1 +1,32 @@
-<p>vaccines works!</p>
+<div class="container">
+  <h2 class="text-center mb-4">Available Vaccines</h2>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Search by vaccine name..." [(ngModel)]="searchTerm" (input)="filterVaccines()">
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Vaccine ID</th>
+          <th>Vaccine Name</th>
+          <th>Effectiveness (%)</th>
+          <th>Max Required Doses</th>
+          <th>Route</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vaccine of filteredVaccines">
+          <td>{{ vaccine.vaccineId }}</td>
+          <td>{{ vaccine.vaccineName }}</td>
+          <td>{{ vaccine.effectivenessPercentage }}</td>
+          <td>{{ vaccine.maxRequiredDoses }}</td>
+          <td>{{ vaccine.route }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
