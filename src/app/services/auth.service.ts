@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DoctorResponse } from '../model/doctor/doctor-response';
 import { Router } from '@angular/router';
-import { DoctorResponse } from 'src/app/model/doctor/doctor-response';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,6 @@ export class AuthService {
   private loginUrl = 'http://localhost:8080/auth/login';
   public isDoctorLoggedIn: boolean;
   public isAdminLoggedIn: boolean;
-
   public doctorProfile: DoctorResponse;
   errorFlag: boolean;
 
@@ -20,22 +20,40 @@ export class AuthService {
     this.doctorProfile = new DoctorResponse();
     this.errorFlag = false;
     this.isAdminLoggedIn = false;
+
+    const storedJwt = localStorage.getItem('jwt');
+    if (storedJwt) {
+      this.isDoctorLoggedIn = true;
+      this.doctorProfile.jwt = storedJwt;
+      this.isAdminLoggedIn = this.doctorProfile.doctor == null;
+    }
+  }
+
+  getAuthHeaders(): HttpHeaders {
+    const token = this.doctorProfile.jwt;
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
   canActivate(): boolean {
-    if (this.isDoctorLoggedIn && this.doctorProfile.jwt !== null) {
-      return true;
-    }
-    return false;
+    const storedJwt = localStorage.getItem('jwt');
+    return this.isDoctorLoggedIn && !!storedJwt;
   }
 
   canAdminActivate(): boolean {
-    if (this.isAdminLoggedIn && this.doctorProfile.jwt !== null) {
-      return true;
-    }
-    return false;
+    const storedJwt = localStorage.getItem('jwt');
+    return this.isAdminLoggedIn && !!storedJwt;
   }
 
+  getLoggedInUser(): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>("http://localhost:8080/doctors", { headers }).pipe(
+      map(response => ({ data: response })),
+      catchError(error => {
+        this.router.navigateByUrl("/login");
+        return throwError(error);
+      })
+    );
+  }
 
   login(email: string, password: string) {
     this.errorFlag = false;
@@ -46,16 +64,15 @@ export class AuthService {
     this.http.post<DoctorResponse>(this.loginUrl, loginData).subscribe(response => {
       if (response.doctor == null) {
         this.isAdminLoggedIn = true;
-        console.log('admin Login successful', response);
+        console.log('Admin login successful', response);
+        localStorage.setItem('jwt', response.jwt);
         this.router.navigate(['/adminDashboard']);
-      }
-      else {
+      } else {
         this.isDoctorLoggedIn = true;
         this.doctorProfile = response;
-        console.log('doctor Login successful', response);
+        localStorage.setItem('jwt', response.jwt);
         this.router.navigate(['/landingPage']);
       }
-
     },
       err => {
         this.errorFlag = true;
@@ -65,8 +82,10 @@ export class AuthService {
 
   logout() {
     this.isDoctorLoggedIn = false;
+    this.isAdminLoggedIn = false;
     this.doctorProfile = new DoctorResponse();
-    console.log(this.isDoctorLoggedIn);
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('doctor');
+    this.router.navigate(['/login']);
   }
-
 }

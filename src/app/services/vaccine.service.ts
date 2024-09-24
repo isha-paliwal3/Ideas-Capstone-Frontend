@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -12,8 +12,7 @@ export class VaccineService {
   constructor(private http: HttpClient, public authService: AuthService) { }
 
   getAllVaccines(): Observable<any[]> {
-    const token = this.authService.doctorProfile.jwt;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = this.authService.getAuthHeaders();
     return this.http.get<any[]>(this.baseUrl, { headers });
   }
 }

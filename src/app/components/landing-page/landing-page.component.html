@@ -1,124 +1,186 @@
 <div class="landing-page-container">
-  <div class="hero-section text-center d-flex align-items-center justify-content-center">
-    <div class="overlay"></div>
-    <div class="hero-content">
-      <h1 class="display-4">Welcome, Dr. {{ authService.doctorProfile.doctor.doctorName }}</h1>
-      <p class="lead">Your personalized dashboard for patient care and vaccination schedules.</p>
-    </div>
+  <div class="hero-section d-flex justify-content-between align-items-center">
+      <div class="hero-content ps-5">
+        <h1 class="mb-5 ps-2">Welcome, Dr. {{ authService.doctorProfile.doctor.doctorName }} </h1>
+
+        <div class="d-flex justify-content-start align-items-center text-center">
+          <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-around align-items-center ">
+                  <img style="width: 30px;" src="../../../assets/patient.png" alt="">
+                  <p class="text-secondary mb-0" style="font-weight: 500; font-size: 18px;">Patients Overview</p>
+                </div>
+                <div class="highlight-number">
+                  <strong>{{ patientCount }}</strong>
+                </div>
+                <p class="card-text">
+                  {{ patientCount === 1 ? 'Patient' : 'Patients' }} with upcoming vaccinations.
+                </p>
+                <a routerLink="/patients" class="btn">
+                  <i class="fas fa-eye"></i> View All Patients
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-around align-items-center">
+                  <img style="width: 30px;" src="../../../assets/syringe-needle.png" alt="">
+                  <p class="text-secondary mb-0" style="font-weight: 500;  font-size: 18px;">Upcoming Vaccinations</p>
+                </div>
+                <div class="highlight-number">
+                  <strong>{{ upcomingVaccinations.length }}</strong>
+                </div>
+                <p class="card-text">
+                  {{ upcomingVaccinations.length === 1 ? 'Upcoming vaccination' : 'Vaccinations are due this week' }}.
+                </p>
+                <a routerLink="/upcomingVaccinations" class="btn ">
+                  <i class="fas fa-calendar-check"></i> View Full Schedule
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <img src="../../../assets/landingHero.png" alt="">
+      </div>
   </div>
 
-  <div class="row mt-5 text-center">
-    <div class="col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <div class="d-flex justify-content-center align-items-center mb-3">
-            <i class="fas fa-users fa-3x " style="color: #5142d9;"></i>
-          </div>
-          <h5 class="card-title">Patients Overview</h5>
-          <p class="card-text">
-            You have <strong>{{ patientCount }}</strong> {{ patientCount === 1 ? 'patient' : 'patients' }} with upcoming vaccinations.
-          </p>
-          <a routerLink="/patients" class="btn w-50">
-            <i class="fas fa-eye"></i> View All Patients
-          </a>
-        </div>
+<div class="section-container px-5" style="padding: 4rem 0; background: linear-gradient(135deg, #5142d9, #eeedfb);">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center">
+        <img src="../../../assets/bg5.png" class="img-fluid" alt="Add New Patient" style="border-radius: 10px;">
       </div>
-    </div>
-
-    <!-- Upcoming Vaccination Card -->
-    <div class="col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <div class="d-flex justify-content-center align-items-center mb-3">
-            <i class="fas fa-syringe fa-3x" style="color: #5142d9;"></i>
-          </div>
-          <h5 class="card-title">Upcoming Vaccinations</h5>
-          <p class="card-text">
-            You have <strong>{{ upcomingVaccinations.length }}</strong> {{ upcomingVaccinations.length === 1 ? 'upcoming vaccination' : 'upcoming vaccinations' }}.
-          </p>
-          <a routerLink="/upcomingVaccinations" class="btn w-50">
-            <i class="fas fa-calendar-check"></i> View Full Schedule
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Add New Patient Card -->
-    <div class="col-md-4 mb-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <div class="d-flex justify-content-center align-items-center mb-3">
-            <i class="fas fa-user-plus fa-3x " style="color: #5142d9;"></i>
-          </div>
-          <h5 class="card-title">Add New Patient</h5>
-          <p class="card-text">Easily add new patients to the system.</p>
-          <a routerLink="/addpatients" class="btn w-50">
-            <i class="fas fa-plus"></i> Add Patient
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row mt-2">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Patients Due in This week</h5>
-          <div class="chart-container">
-            <canvas id="vaccinationChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Vaccines Due by Type in this week</h5>
-          <div class="chart-container">
-            <canvas id="vaccineTypeChart"></canvas>
-          </div>
-        </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title text-light">Add New Patient</h2>
+        <p class="section-text text-light">Easily add new patients to the system.</p>
+        <a routerLink="/addpatients" class="btn btn-light btn-lg shadow-sm"
+          style="background-color: #fff; color: #5142d9;">
+          <i class="fas fa-plus"></i> Add Patient
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- <div class="row mt-5">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Patients Overview</h5>
-          <p class="card-text">
-            You have {{ patientCount }} {{ patientCount === 1 ? 'patient' : 'patients' }} with upcoming vaccinations.
-          </p>
-          <a routerLink="/patients" class="btn btn-primary">View All Patients</a>
-        </div>
+  <div class="section-container p-5" style="background-color: #f6f7fc;">
+    <div class="row align-items-center flex-md-row-reverse p-5">
+      <div class="col-md-6 text-center">
+        <canvas id="vaccinationChart" class="img-fluid" alt="Patients Due Chart"></canvas>
+      </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title">Patients Due This Week</h2>
+        <p class="section-text">Track the patients who are due for vaccinations this week.</p>
       </div>
     </div>
+  </div>
 
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Upcoming Vaccination</h5>
-          <p class="card-text">
-            You have {{ upcomingVaccinations.length }} {{ upcomingVaccinations.length === 1 ? 'upcoming vaccination' : 'upcoming vaccinations' }}.
-          </p>
-          <a routerLink="/upcomingVaccinations" class="btn btn-primary">View Full Schedule</a>
-        </div>
+  <div class="section-container d-flex justify-content-around"
+    style="background: linear-gradient(135deg, #5142d9, #eeedfb);">
+    <div class="row align-items-center justify-content-around" style="width: 80%;">
+      <div class="col-md-6 text-center">
+        <canvas id="vaccineTypeChart" class="img-fluid" alt="Vaccines Due Chart"></canvas>
+      </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title text-light">Vaccines Required This Week</h2>
+        <p class="section-text text-light">Get a detailed breakdown of vaccines due this week by type.</p>
       </div>
     </div>
+</div>
 
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Add New Patient</h5>
-          <p class="card-text">Easily add new patients to the system.</p>
-          <a routerLink="/addpatients" class="btn btn-primary">Add Patient</a>
-        </div>
+<app-footer></app-footer>
+
+
+<!-- <div class="landing-page-container">
+
+  <div class=" hero-section d-flex justify-content-around">
+    <div class="row align-items-center">
+      <div class="hero-content col-md-6">
+        <h1 class="display-4">Welcome, Dr. {{ authService.doctorProfile.doctor.doctorName }}</h1>
+        <p class="lead">Your personalized dashboard for patient care and vaccination schedules.</p>
+      </div>
+      <div class="col-md-6 ">
+        <img src="../../../assets/landingHero.png" alt="">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section-container px-5" style="padding: 4rem 0; background: linear-gradient(135deg, #5142d9, #eeedfb);">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center">
+        <img src="../../../assets/bg3.png" class="img-fluid" alt="Patients Overview" style="border-radius: 10px;">
+      </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title text-light">Patients Overview</h2>
+        <p class="section-text text-light">You have <strong>{{ patientCount }}</strong> {{ patientCount === 1 ?
+          'patient' : 'patients' }} with upcoming vaccinations.</p>
+        <a routerLink="/patients" class="btn btn-light btn-lg shadow-sm"
+          style="background-color: #fff; color: #5142d9;">
+          <i class="fas fa-eye"></i> View All Patients
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container px-5" style="padding: 4rem 0; background-color: #f6f7fc;">
+    <div class="row align-items-center flex-md-row-reverse">
+      <div class="col-md-6 text-center">
+        <img src="/../../../assets/baby1.png" class="img-fluid" alt="Upcoming Vaccinations"
+          style="border-radius: 10px;">
+      </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title">Upcoming Vaccinations</h2>
+        <p class="section-text">You have <strong>{{ upcomingVaccinations.length }}</strong> {{
+          upcomingVaccinations.length === 1 ? 'upcoming vaccination' : 'upcoming vaccinations' }}.</p>
+        <a routerLink="/upcomingVaccinations" class="btn btn-primary btn-lg shadow-sm">
+          <i class="fas fa-calendar-check"></i> View Full Schedule
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container px-5" style="padding: 4rem 0; background: linear-gradient(135deg, #5142d9, #eeedfb);">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center">
+        <img src="../../../assets/bg5.png" class="img-fluid" alt="Add New Patient" style="border-radius: 10px;">
+      </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title text-light">Add New Patient</h2>
+        <p class="section-text text-light">Easily add new patients to the system.</p>
+        <a routerLink="/addpatients" class="btn btn-light btn-lg shadow-sm"
+          style="background-color: #fff; color: #5142d9;">
+          <i class="fas fa-plus"></i> Add Patient
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container p-5" style="background-color: #f6f7fc;">
+    <div class="row align-items-center flex-md-row-reverse p-5">
+      <div class="col-md-6 text-center">
+        <canvas id="vaccinationChart" class="img-fluid" alt="Patients Due Chart"></canvas>
+      </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title">Patients Due This Week</h2>
+        <p class="section-text">Track the patients who are due for vaccinations this week.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container d-flex justify-content-around"
+    style="background: linear-gradient(135deg, #5142d9, #eeedfb);">
+    <div class="row align-items-center justify-content-around" style="width: 80%;">
+      <div class="col-md-6 text-center">
+        <canvas id="vaccineTypeChart" class="img-fluid" alt="Vaccines Due Chart"></canvas>
+      </div>
+      <div class="col-md-6 text-center text-md-left">
+        <h2 class="section-title text-light">Vaccines Required This Week</h2>
+        <p class="section-text text-light">Get a detailed breakdown of vaccines due this week by type.</p>
       </div>
     </div>
   </div> -->
-
-
-</div>

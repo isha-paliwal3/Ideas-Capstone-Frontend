@@ -13,7 +13,6 @@ import {
 })
 export class LandingPageComponent implements OnInit {
   patientCount: number = 0;
-  nextVaccinationDays: number = 0;
   upcomingVaccinations: any[] = [];
   vaccinationChart: any;
   vaccineTypeChart: any;
@@ -23,7 +22,7 @@ export class LandingPageComponent implements OnInit {
     public authService: AuthService,
     private router: Router
   ) {
-    Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, PieController, ArcElement, Legend);
+    Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip);
   }
 
   ngOnInit(): void {
@@ -32,9 +31,18 @@ export class LandingPageComponent implements OnInit {
   }
 
   loadUpcomingVaccinationsCount(): void {
-    this.immunizationScheduleService.getUpcomingVaccinationCount().subscribe(
-      (count: number) => {
-        this.patientCount = count;
+    this.immunizationScheduleService.getVaccinationsDueWithin7Days().subscribe(
+      (vaccinations: any[]) => {
+        // Using a Set to store unique patient names
+        const uniquePatients = new Set<string>();
+
+        vaccinations.forEach(vaccination => {
+          const patientName = vaccination.patientName;  // Assuming vaccination has patientName field
+          uniquePatients.add(patientName);  // Only unique names will be stored in the Set
+        });
+
+        // Update patientCount with the size of the Set (unique patients)
+        this.patientCount = uniquePatients.size;
       },
       (error) => {
         console.error('Error fetching upcoming vaccinations count:', error);
@@ -42,12 +50,13 @@ export class LandingPageComponent implements OnInit {
     );
   }
 
+
   loadNextVaccinationSchedule(): void {
     this.immunizationScheduleService.getVaccinationsDueWithin7Days().subscribe(
       (vaccinations: any[]) => {
         this.upcomingVaccinations = vaccinations;
-        this.createVaccinationChart();
-        this.createVaccineTypeChart();
+        this.createVaccinationChart();  // Vaccination schedule bar chart
+        this.createVaccineTypeChart();  // Vaccine types horizontal bar chart
       },
       (error) => {
         console.error('Error fetching upcoming vaccinations:', error);
@@ -66,6 +75,10 @@ export class LandingPageComponent implements OnInit {
     });
 
     const ctx = document.getElementById('vaccinationChart') as HTMLCanvasElement;
+    if (this.vaccinationChart) {
+      this.vaccinationChart.destroy();  // Destroy previous chart instance if necessary
+    }
+
     this.vaccinationChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -82,9 +95,9 @@ export class LandingPageComponent implements OnInit {
         scales: {
           y: {
             beginAtZero: true,
-            max: 10,
+            max: 10,  // Maximum value on the y-axis
             ticks: {
-              stepSize: 1
+              stepSize: 2  // Display steps of 2: 0, 2, 4, 6, 8, 10
             }
           }
         },
@@ -105,38 +118,56 @@ export class LandingPageComponent implements OnInit {
     const vaccineData = Object.values(vaccineTypeCount);
 
     const ctx = document.getElementById('vaccineTypeChart') as HTMLCanvasElement;
+    if (this.vaccineTypeChart) {
+      this.vaccineTypeChart.destroy();
+    }
+
     this.vaccineTypeChart = new Chart(ctx, {
-      type: 'pie',
+      type: 'bar',
       data: {
         labels: vaccineLabels,
         datasets: [{
-          label: 'Vaccines Due by Type',
+          label: 'Quantity Required',
           data: vaccineData,
-          backgroundColor: [
-            'rgba(75, 192, 192, 0.5)',
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(255, 206, 86, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(153, 102, 255, 0.5)',
-            'rgba(255, 159, 64, 0.5)'
-          ],
-          borderColor: [
-            'rgba(75, 192, 192, 1)',
-            'rgba(255, 99, 132, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
+          backgroundColor: 'rgba(81, 66, 217, 0.6)',
+          borderColor: '#5142d9',
           borderWidth: 1
         }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false
+        indexAxis: 'y',
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: 20,
+            ticks: {
+              stepSize: 2,
+              color: '#fff'
+            }
+          },
+          y: {
+            ticks: {
+              color: '#fff'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Vaccines Due by Type (Quantity)',
+            font: {
+              size: 18
+            },
+            color: '#f0f0f0'
+          },
+          legend: {
+            labels: {
+              color: '#fff'
+            }
+          }
+        }
       }
     });
   }
-
 
 }

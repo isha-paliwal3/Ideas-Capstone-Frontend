@@ -2,3 +2,8 @@
   min-height: 100vh;
   margin-top: 6rem;
 }
+
+.btn {
+  background-color: #5142d9;
+  color: white;
+}
