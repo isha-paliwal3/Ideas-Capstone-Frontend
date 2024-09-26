@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DoctorResponse } from '../model/doctor/doctor-response';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private loginUrl = 'http://localhost:8080/auth/login';
+  private loginUrl = `${environment.baseUrl}/auth/login`; 
   public isDoctorLoggedIn: boolean;
   public isAdminLoggedIn: boolean;
   public doctorProfile: DoctorResponse;
@@ -46,7 +47,7 @@ export class AuthService {
 
   getLoggedInUser(): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.get<any>("http://localhost:8080/doctors", { headers }).pipe(
+    return this.http.get<any>(`${environment.baseUrl}/doctors`, { headers }).pipe(
       map(response => ({ data: response })),
       catchError(error => {
         this.router.navigateByUrl("/login");
@@ -59,7 +60,10 @@ export class AuthService {
     this.errorFlag = false;
     this.isDoctorLoggedIn = false;
     this.isAdminLoggedIn = false;
-    const loginData = { email, password };
+
+    // Encrypt password using Base64
+    const encryptedPassword = btoa(password);
+    const loginData = { email, password: encryptedPassword };
 
     this.http.post<DoctorResponse>(this.loginUrl, loginData).subscribe(response => {
       if (response.doctor == null) {

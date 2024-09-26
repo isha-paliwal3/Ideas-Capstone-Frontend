@@ -22,11 +22,16 @@
   text-shadow:2 px 2px 4px rgb(186 185 226 / 80%)
 }
 
+.hero-content{
+  padding-left: 8rem;
+}
+
 .hero-content h1 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 20px;
 }
+
 
 .card{
   width: 300px;
